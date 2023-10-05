@@ -112,7 +112,7 @@ func set_course_description(x:String):
 func set_progress():
 	var progress_percantage
 	if total_tasks:
-		progress_percantage = (float(done_tasks)/total_tasks)*100
+		progress_percantage = (float(done_tasks)/float(total_tasks))*100
 	else:
 		progress_percantage = 0
 	progress.text = str(progress_percantage)
@@ -122,13 +122,13 @@ func set_deadline(x:String):
 	time_to_complete.text = x
 	
 func set_total_tasks(x:int):
+	total_tasks = x
 	total_tasks_label.text = str(x) + " tasks"
-	
+	set_progress()
+
 func set_done_tasks(x:bool):
-	if(x):
-		done_tasks+=1
-	else:
-		done_tasks-=1
+	done_tasks = x
+	set_progress()
 
 func mouse_entered():
 	if (!edit):

@@ -9,8 +9,6 @@ func _ready():
 	var viewport_height = get_viewport_rect().size.y
 	$MarginContainer/VBoxContainer/ScrollContainer.custom_minimum_size.y = viewport_height-160
 
-
-
 func expand_card(x:int):
 	$MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Dashboard_.hide()
 	expended_view = expended_course.instantiate()

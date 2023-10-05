@@ -36,7 +36,7 @@ func _ready():
 	normal_mode()
 	set_item_name(item_name)
 	set_item_link(item_link)
-	_on_check_button_toggled(completed)
+	set_toggle(completed)
 
 func _process(delta):
 	var mouse_position = get_global_mouse_position()
@@ -54,6 +54,8 @@ func _on_text_edit_gui_input(event):
 func mouse_entered():
 	if (!edit):
 		hover_mode()
+	if Input.is_action_just_pressed("left_mouse"):
+			open_link_in_browser()
 
 func mouse_exited():
 	if(!edit):
@@ -111,21 +113,31 @@ func set_text():
 	update_item_json()
 	normal_mode()
 
+func set_toggle(completed):
+	if completed:
+		check_button.button_pressed = true
+		$white_panel.hide()
+		$yellow_panel.show()
+	else:
+		check_button.button_pressed = false
+		$white_panel.show()
+		$yellow_panel.hide()
+
 func _on_check_button_toggled(button_pressed):
 	if button_pressed:
 		completed = 1
 		check_button.button_pressed = true
 		$white_panel.hide()
 		$yellow_panel.show()
-		get_parent().get_parent().update_completed_tasks(1)
+		get_parent().get_parent().update_done_tasks(1)
 	else:
 		completed = 0
 		check_button.button_pressed = false
 		$white_panel.show()
 		$yellow_panel.hide()
-		get_parent().get_parent().update_completed_tasks(-1)
+		get_parent().get_parent().update_done_tasks(-1)
 	update_item_json()
-		
+
 func update_item_json():
 	var item = {
 		"key": key,
@@ -137,3 +149,7 @@ func update_item_json():
 	var index = CourseManager.getItemKeyIndex(key, course_idx)
 	Global.user_data["courses"][course_idx]["items"][index] = item
 	Global.save_json_file()
+
+func open_link_in_browser():
+	if item_link!="":
+		OS.shell_open(item_link)

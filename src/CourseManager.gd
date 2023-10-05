@@ -60,6 +60,7 @@ func get_key_index(key):
 
 func getNewItemKey():
 	var new_key = generateUniqueKey()
+	return new_key
 
 func getItemKeyIndex(key, idx):
 	var items = Global.user_data["courses"][idx]["items"]

@@ -19,6 +19,7 @@ config/icon="res://coursefy_icon.png"
 
 Global="*res://src/global.gd"
 CourseManager="*res://src/CourseManager.gd"
+MetadataRequest="*res://src/metadata_request.gd"
 
 [input]
 

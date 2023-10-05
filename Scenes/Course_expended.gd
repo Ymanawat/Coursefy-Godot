@@ -94,6 +94,7 @@ func append_items(link):
 	var new_key = CourseManager.getNewItemKey()
 	var new_item = list_item.instantiate()
 	new_item.key = new_key
+	MetadataRequest.url=link
 	new_item.item_name = "name"
 	new_item.item_link = link
 	
@@ -106,7 +107,8 @@ func append_items(link):
 		"completed" : 0
 	}
 	items.append(new_item_data)
-	Global.save_json_file()
+	total_tasks+=1
+	update_item_json()
 	show_add_item_button()
 
 func remove_item(key):
@@ -168,34 +170,43 @@ func set_text():
 		set_course_description(course_description_edit.get_line(0))
 		course_description_edit.clear()
 	edit = 0
+	update_item_json()
 	normal_mode()
 
 func set_course_name(x:String):
+	course_name_text = x
 	course_name.text = x
 
 func set_course_description(x:String):
+	course_description_text = x
 	course_description.text = x
 
 func set_progress():
-	var progress_percantage
-	if total_tasks:
-		progress_percantage = (float(done_tasks)/total_tasks)*100
+	var progress_percantage = 100
+	if total_tasks>0:
+		print(float(done_tasks)/float(total_tasks))
+		progress_percantage = (float(done_tasks)/float(total_tasks))*100.0
 	else:
 		progress_percantage = 0
 	progress.text = str(progress_percantage)
 	progress_bar.value = progress_percantage
 	
 func set_deadline(x:String):
+	course_deadline_text = x
 	time_to_complete.text = x
-	
+
 func set_total_tasks(x:int):
+	total_tasks = x
 	total_tasks_label.text = str(x) + " tasks"
-	
-func set_done_tasks(x:bool):
-	if(x):
-		done_tasks+=1
-	else:
-		done_tasks-=1
+
+func set_done_tasks(x:int):
+	done_tasks=x
+	set_progress()
+
+func update_done_tasks(x:int):
+	done_tasks+=x
+	update_item_json()
+	set_progress()
 
 func mouse_entered():
 	if (!edit):
@@ -210,3 +221,17 @@ func _on_text_edit_gui_input(event):
 		if event.is_action_pressed("ui_accept"):
 			set_text()
 
+func update_item_json():
+	var index = CourseManager.get_key_index(key)
+	var items = Global.user_data["courses"][index]["items"]
+	var course = {
+		"key": key,
+		"course_name" : course_name_text,
+		"course_description" : course_description_text,
+		"total_items" : total_tasks,
+		"completed_items" : done_tasks,
+		"deadline": course_deadline_text,
+		"items" : items
+	}
+	Global.user_data["courses"][index] = course
+	Global.save_json_file()
