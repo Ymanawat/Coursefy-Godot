@@ -1,6 +1,7 @@
 extends Node
 
 var occupiedKeys := {}
+var courses
 
 func _ready():
 	var courses = Global.user_data["courses"]
@@ -36,7 +37,7 @@ func getNewKey():
 
 	if freeIndex != -1:
 		# Map the new key with the free index
-		occupiedKeys[newKey] = freeIndex
+		occupiedKeys[str(newKey)] = freeIndex
 		return newKey
 	else:
 		return "error"
@@ -50,6 +51,19 @@ func removeKey(key):
 		# Return -1 or handle the case when the key is not found
 		return -1
 
-func get_key_index(key:String):
-	return occupiedKeys[key]
+func get_key_index(key):
+	var courses = Global.user_data["courses"]
+	for index in range(courses.size()):
+		if courses[index]["key"]==key:
+			return index
 	
+
+func getNewItemKey():
+	var new_key = generateUniqueKey()
+
+func getItemKeyIndex(key, idx):
+	var items = Global.user_data["courses"][idx]["items"]
+	for index in range(items.size()):
+		if items[index]["key"] == str(key):
+			return index
+

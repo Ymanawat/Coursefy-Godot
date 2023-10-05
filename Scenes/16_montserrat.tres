@@ -1,0 +1,20 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://dg27t236wgh5q"]
+
+[ext_resource type="FontFile" uid="uid://djwhfw5p4pn1w" path="res://Assets/Fonts/Montserrat/Montserrat-VariableFont_wght.ttf" id="1_ar5nv"]
+[ext_resource type="FontFile" uid="uid://c0o86usrgbvl4" path="res://Assets/Fonts/Montserrat/Montserrat-Medium.ttf" id="2_g4ep2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_itin0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ogatv"]
+
+[resource]
+/colors/Black = Color(0, 0, 0, 1)
+/font_sizes/16 = 16
+/font_sizes/24 = 24
+/font_sizes/48 = 48
+/fonts/Montserrat = ExtResource("1_ar5nv")
+/styles/d = SubResource("StyleBoxEmpty_itin0")
+Label/colors/font_color = Color(0, 0, 0, 1)
+Label/font_sizes/font_size = 16
+Label/fonts/font = ExtResource("2_g4ep2")
+Label/styles/normal = SubResource("StyleBoxEmpty_ogatv")

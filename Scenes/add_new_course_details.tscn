@@ -12,8 +12,9 @@ MarginContainer/colors/Background = Color(0.988235, 0.870588, 0.454902, 1)
 
 [node name="add_new_course_details" type="Button"]
 custom_minimum_size = Vector2(320, 280)
-offset_right = 300.0
-offset_bottom = 280.0
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
 theme = SubResource("Theme_6ueds")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_khs86")
 flat = true

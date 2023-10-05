@@ -1,45 +1,221 @@
-[gd_scene load_steps=5 format=3 uid="uid://cipvqc2apaa5n"]
+[gd_scene load_steps=17 format=3 uid="uid://cipvqc2apaa5n"]
 
-[ext_resource type="PackedScene" uid="uid://d3muteanoojdo" path="res://Scenes/course_card.tscn" id="1_0jpl6"]
-[ext_resource type="Script" path="res://Scenes/Course_expended.gd" id="1_i3rlh"]
+[ext_resource type="Script" path="res://Scenes/Course_expended.gd" id="1_xj0j4"]
 [ext_resource type="Texture2D" uid="uid://dfg57nsf1w0bh" path="res://Assets/Icons/Back.svg" id="1_yqpbj"]
-[ext_resource type="PackedScene" uid="uid://cg56oams6ehj5" path="res://Scenes/list_item.tscn" id="2_gsorj"]
+[ext_resource type="StyleBox" uid="uid://ufgo1cnge15c" path="res://Scenes/Course_Card_panel.tres" id="4_kmwop"]
+[ext_resource type="Theme" uid="uid://5gvxik861gq4" path="res://Scenes/16_poppins.tres" id="5_xtqxd"]
+[ext_resource type="StyleBox" uid="uid://xuerbuit124m" path="res://Scenes/text_edit_normal.tres" id="6_e18qs"]
+[ext_resource type="StyleBox" uid="uid://b8ewn0koxrxrv" path="res://Scenes/text_edit_focus.tres" id="7_yctdk"]
+[ext_resource type="Theme" uid="uid://dogu5kxhktkxa" path="res://Scenes/Title_Montserrat.tres" id="8_21umk"]
+[ext_resource type="Theme" uid="uid://bco483b3w4l6s" path="res://Scenes/20_poppins.tres" id="9_1u3ag"]
+[ext_resource type="Texture2D" uid="uid://diqrirrcqupv1" path="res://Assets/Icons/Edit.svg" id="10_saruv"]
+[ext_resource type="Texture2D" uid="uid://cq3bcd7im3yj2" path="res://Assets/Icons/Delete.svg" id="11_db5xb"]
+[ext_resource type="Texture2D" uid="uid://clqj760l0f03v" path="res://Assets/Icons/Checked.svg" id="12_72ikq"]
 
-[node name="course_expended" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_i3rlh")
+[sub_resource type="Theme" id="Theme_6ueds"]
+MarginContainer/colors/Background = Color(0.988235, 0.870588, 0.454902, 1)
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n2k4u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ph55n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p4miq"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rm2vi"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="course_expended" type="MarginContainer"]
+offset_right = 1154.0
+offset_bottom = 533.0
 grow_horizontal = 2
-grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+script = ExtResource("1_xj0j4")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 525.0
-grow_horizontal = 2
+layout_mode = 2
+size_flags_vertical = 0
 
 [node name="Button" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
 icon = ExtResource("1_yqpbj")
 flat = true
 
-[node name="course_card" parent="VBoxContainer" instance=ExtResource("1_0jpl6")]
+[node name="course_card" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 1
+size_flags_vertical = 2
+theme = SubResource("Theme_6ueds")
 
-[node name="list_item" parent="VBoxContainer" instance=ExtResource("2_gsorj")]
+[node name="Panel" type="Panel" parent="VBoxContainer/course_card"]
 layout_mode = 2
-size_flags_horizontal = 1
+theme_override_styles/panel = ExtResource("4_kmwop")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/course_card"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/course_card/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="course_edit" type="VBoxContainer" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="course_name_edit" type="TextEdit" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer/course_edit"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme = ExtResource("5_xtqxd")
+theme_override_styles/normal = ExtResource("6_e18qs")
+theme_override_styles/focus = ExtResource("7_yctdk")
+placeholder_text = "Course name"
+scroll_fit_content_height = true
+text_direction = 1
+
+[node name="course_description_edit" type="TextEdit" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer/course_edit"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("6_e18qs")
+theme_override_styles/focus = ExtResource("7_yctdk")
+placeholder_text = "Course Description"
+scroll_fit_content_height = true
+
+[node name="course_labels" type="VBoxContainer" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 0
+
+[node name="course_name" type="Label" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer/course_labels"]
+layout_mode = 2
+theme = ExtResource("8_21umk")
+text = "COUSE NAME"
+autowrap_mode = 3
+
+[node name="course_description" type="Label" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer/course_labels"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme = ExtResource("9_1u3ag")
+text = "Course Description"
+autowrap_mode = 2
+
+[node name="panel_separator" type="Panel" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_n2k4u")
+
+[node name="edit_button" type="Button" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+icon = ExtResource("10_saruv")
+flat = true
+
+[node name="delete_button" type="Button" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+icon = ExtResource("11_db5xb")
+flat = true
+
+[node name="done_button" type="Button" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+icon = ExtResource("12_72ikq")
+flat = true
+
+[node name="MarginContainer" type="Control" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(108, 48)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Panel" type="Panel" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_kmwop")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -27.0
+offset_top = -20.0
+offset_right = 27.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="total_tasks" type="Label" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("5_xtqxd")
+text = "12 task"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("5_xtqxd")
+text = "Progress:
+"
+
+[node name="progress_percentage" type="Label" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("9_1u3ag")
+text = "23%"
+
+[node name="Panel" type="Panel" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ph55n")
+
+[node name="Label3" type="Label" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("5_xtqxd")
+text = "Time to complete:"
+
+[node name="time_to_complete" type="Label" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("9_1u3ag")
+text = "10 Oct"
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_p4miq")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rm2vi")
+value = 23.0
+show_percentage = false
 
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="gui_input" from="VBoxContainer/course_card" to="VBoxContainer/course_card" method="_on_gui_input" flags=18]
+[connection signal="gui_input" from="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer/course_edit/course_name_edit" to="VBoxContainer/course_card" method="_on_text_edit_gui_input" flags=18]
+[connection signal="gui_input" from="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer/course_edit/course_description_edit" to="VBoxContainer/course_card" method="_on_text_edit_gui_input" flags=18]
+[connection signal="pressed" from="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer/edit_button" to="VBoxContainer/course_card" method="_on_edit_pressed" flags=18]
+[connection signal="pressed" from="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer/delete_button" to="VBoxContainer/course_card" method="_on_delete_pressed" flags=18]
+[connection signal="pressed" from="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer/done_button" to="VBoxContainer/course_card" method="_on_done_pressed" flags=18]

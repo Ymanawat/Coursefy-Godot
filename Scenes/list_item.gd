@@ -17,10 +17,11 @@ var edit = 0
 var key = ""
 var item_name = ""
 var item_link = ""
+var completed = 0
 
 func _ready():
-	item_edit_box = find_child("item_edit")
-	item_label_box = find_child("item_label")
+	item_edit_box = $MarginContainer/HBoxContainer/item_edit
+	item_label_box = $MarginContainer/HBoxContainer/item_label
 	item_name_edit = $MarginContainer/HBoxContainer/item_edit/item_name_edit
 	item_link_edit = $MarginContainer/HBoxContainer/item_edit/item_link_edit
 	item_name_label = $MarginContainer/HBoxContainer/item_label/item_name
@@ -28,6 +29,11 @@ func _ready():
 	delete_button = $MarginContainer/HBoxContainer/delete_button
 	check_button = $MarginContainer/HBoxContainer/CheckButton
 	panel_separator = $MarginContainer/HBoxContainer/panel_separator
+	
+	normal_mode()
+	set_item_name(item_name)
+	set_item_link(item_link)
+	_on_check_button_toggled(completed)
 
 func _process(delta):
 	var mouse_position = get_global_mouse_position()
@@ -73,7 +79,7 @@ func _on_edit_pressed():
 	edit_mode()
 
 func _on_delete_pressed():
-	queue_free()
+	get_parent().get_parent().remove_item(key)
 
 func _on_done_pressed():
 	edit = 0
@@ -96,9 +102,15 @@ func set_text():
 	normal_mode()
 
 func _on_check_button_toggled(button_pressed):
+	print(button_pressed)
 	if button_pressed:
+		completed = 1
+		check_button.button_pressed = true
 		$white_panel.hide()
 		$yellow_panel.show()
 	else:
+		completed = 0
+		check_button.button_pressed = false
 		$white_panel.show()
 		$yellow_panel.hide()
+		

@@ -83,8 +83,8 @@ func _on_edit_pressed():
 	edit_mode()
 
 func _on_delete_pressed():
+	Global.collapse_expended_card()
 	Global.remove_course(CourseManager.get_key_index(key))
-	queue_free()
 
 func _on_done_pressed():
 	edit = 0
@@ -112,7 +112,7 @@ func set_course_description(x:String):
 func set_progress():
 	var progress_percantage
 	if total_tasks:
-		progress_percantage = (float(done_tasks)/total_tasks)*100
+		progress_percantage = (done_tasks/total_tasks)*100
 	else:
 		progress_percantage = 0
 	progress.text = str(progress_percantage)
@@ -142,8 +142,3 @@ func _on_text_edit_gui_input(event):
 	if event is InputEventKey:
 		if event.is_action_pressed("ui_accept"):
 			set_text()
-
-func _on_gui_input(event):
-	if event is InputEventMouseButton:
-		if event.is_action_pressed("left_mouse"):
-			Global.expand_card(CourseManager.get_key_index(key))
