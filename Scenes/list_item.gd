@@ -6,6 +6,7 @@ var item_edit_box = find_child("item_edit")
 var item_label_box = find_child("item_label")
 var edit_button:Button
 var delete_button:Button
+var done_button:Button
 var check_button:CheckBox
 var item_name_edit:TextEdit
 var item_link_edit:TextEdit
@@ -15,6 +16,7 @@ var panel_separator:Panel
 var edit = 0
 
 var key = ""
+var index = ""
 var item_name = ""
 var item_link = ""
 var completed = 0
@@ -27,6 +29,7 @@ func _ready():
 	item_name_label = $MarginContainer/HBoxContainer/item_label/item_name
 	edit_button = $MarginContainer/HBoxContainer/edit_button
 	delete_button = $MarginContainer/HBoxContainer/delete_button
+	done_button = $MarginContainer/HBoxContainer/done_button
 	check_button = $MarginContainer/HBoxContainer/CheckButton
 	panel_separator = $MarginContainer/HBoxContainer/panel_separator
 	
@@ -62,13 +65,17 @@ func normal_mode():
 	item_edit_box.hide()
 	item_label_box.show()
 	panel_separator.show()
+	done_button.hide()
+	check_button.show()
 	
 func edit_mode():
 	edit_button.hide()
 	delete_button.hide()
+	done_button.show()
 	item_edit_box.show()
 	item_label_box.hide()
 	panel_separator.hide()
+	check_button.hide()
 
 func hover_mode():
 	edit_button.show()
@@ -80,12 +87,14 @@ func _on_edit_pressed():
 
 func _on_delete_pressed():
 	get_parent().get_parent().remove_item(key)
+	queue_free()
 
 func _on_done_pressed():
 	edit = 0
 	set_text()
 
 func set_item_name(x: String):
+	item_name = x
 	item_name_label.text = x
 	
 func set_item_link(x: String):
@@ -99,18 +108,32 @@ func set_text():
 		set_item_link(item_link_edit.get_line(0))
 		item_link_edit.clear()
 	edit = 0
+	update_item_json()
 	normal_mode()
 
 func _on_check_button_toggled(button_pressed):
-	print(button_pressed)
 	if button_pressed:
 		completed = 1
 		check_button.button_pressed = true
 		$white_panel.hide()
 		$yellow_panel.show()
+		get_parent().get_parent().update_completed_tasks(1)
 	else:
 		completed = 0
 		check_button.button_pressed = false
 		$white_panel.show()
 		$yellow_panel.hide()
+		get_parent().get_parent().update_completed_tasks(-1)
+	update_item_json()
 		
+func update_item_json():
+	var item = {
+		"key": key,
+		"title" : item_name,
+		"url" : item_link,
+		"completed" : completed
+	}
+	var course_idx = get_parent().get_parent().idx
+	var index = CourseManager.getItemKeyIndex(key, course_idx)
+	Global.user_data["courses"][course_idx]["items"][index] = item
+	Global.save_json_file()
