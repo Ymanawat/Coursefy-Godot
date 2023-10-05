@@ -1,0 +1,87 @@
+[gd_scene load_steps=8 format=3 uid="uid://cq1n0jhrxao2p"]
+
+[ext_resource type="Script" path="res://Scenes/main.gd" id="1_adn84"]
+[ext_resource type="Texture2D" uid="uid://cqyd62r1uxaoi" path="res://coursefy logo.png" id="1_uw7tj"]
+[ext_resource type="Texture2D" uid="uid://b38vi7gmgty6x" path="res://Assets/Icons/Emtpy Check.svg" id="2_33yiy"]
+[ext_resource type="PackedScene" uid="uid://i3wn3gb47hgk" path="res://Scenes/dashboard_.tscn" id="4_6b4t2"]
+[ext_resource type="PackedScene" uid="uid://cipvqc2apaa5n" path="res://Scenes/Course_expended.tscn" id="5_hgbxn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yavbo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ts0d8"]
+
+[node name="main" type="Control"]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+script = ExtResource("1_adn84")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.960784, 0.960784, 0.960784, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 48
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(196, 48)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("1_uw7tj")
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_yavbo")
+
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_33yiy")
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ts0d8")
+
+[node name="Dashboard_" parent="MarginContainer/VBoxContainer" instance=ExtResource("4_6b4t2")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="course_expended" parent="MarginContainer/VBoxContainer" instance=ExtResource("5_hgbxn")]
+layout_mode = 2

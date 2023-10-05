@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://cipvqc2apaa5n"]
+
+[ext_resource type="PackedScene" uid="uid://d3muteanoojdo" path="res://Scenes/course_card.tscn" id="1_0jpl6"]
+[ext_resource type="Script" path="res://Scenes/Course_expended.gd" id="1_i3rlh"]
+[ext_resource type="Texture2D" uid="uid://dfg57nsf1w0bh" path="res://Assets/Icons/Back.svg" id="1_yqpbj"]
+[ext_resource type="PackedScene" uid="uid://cg56oams6ehj5" path="res://Scenes/list_item.tscn" id="2_gsorj"]
+
+[node name="course_expended" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i3rlh")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 525.0
+grow_horizontal = 2
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+icon = ExtResource("1_yqpbj")
+flat = true
+
+[node name="course_card" parent="VBoxContainer" instance=ExtResource("1_0jpl6")]
+layout_mode = 2
+size_flags_horizontal = 1
+
+[node name="list_item" parent="VBoxContainer" instance=ExtResource("2_gsorj")]
+layout_mode = 2
+size_flags_horizontal = 1
+
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
