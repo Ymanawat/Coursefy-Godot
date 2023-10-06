@@ -8,6 +8,8 @@ extends Node
 @onready var user_data_JSON = ("user://coursefy_user_data.json")
 @onready var dashboard = control.find_child("Dashboard_")
 @onready var expended_course = control.find_child("course_expended")
+
+var my_course = "res://Firestore/my_course_json.json"
 var user_data = {}
 
 func _ready():
@@ -26,37 +28,12 @@ func _ready():
 func create_json(username):
 	if !FileAccess.file_exists(user_data_JSON):
 		var file = FileAccess.open(user_data_JSON, FileAccess.WRITE)
-		var courses = {
-			"username" : username,
-			"courses" : [
-			{
-				"completed_items": 0,
-				"course_description": "You can delete this one",
-				"course_name": "Course 1",
-				"deadline": "10 Oct",
-				"items": [
-					{
-					"completed": 0,
-					"key": "1.1",
-					"title": "Task1",
-					"url": "https://www.example.com/introduction-course-1"
-					},
-					{
-					"completed": 0,
-					"key": "1.2",
-					"title": "Task2",
-					"url": "https://www.example.com/introduction-course-1"
-					}
-				],
-				"key" : "123",
-				"total_items" : 2
-			}
-			]
-		}
+		var courses = load_json_file(my_course)
 		file.store_string(JSON.stringify(courses))
 		file.close()
 	else:
 		user_data["userrname"] = username
+		save_json_file()
 
 func reload_courses():
 	var add_course_but = course_container.get_child(-1)
@@ -98,7 +75,6 @@ func append_courses(course_name:String, course_description:String, target:String
 	save_json_file()
 	
 func remove_course(idx:int):
-	print(idx)
 	user_data["courses"].remove_at(idx)
 #	print(user_data["courses"][idx])
 	save_json_file()

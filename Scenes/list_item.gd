@@ -171,11 +171,31 @@ func _on_request_completed(result, response_code, headers, body):
 	print("called request completed")
 	if response_code == 200:
 		var body_text = body.get_string_from_utf8()
-		var title_start = body_text.find("<title>") + 7
-		var title_end = body_text.find("</title>", title_start)
-		if title_start >= 0 and title_end >= 0:
-			set_item_name(body_text.substr(title_start, title_end - title_start))
+		
+		# Find the index of the opening <title> tag including attributes
+		var title_start = body_text.find("<title")
+		
+		if title_start >= 0:
+			# Find the index of the closing > after the opening <title> tag
+			title_start = body_text.find(">", title_start)
+			
+			if title_start >= 0:
+				# Increment title_start to exclude the > character
+				title_start += 1
+				
+				# Find the index of the closing </title> tag
+				var title_end = body_text.find("</title>", title_start)
+				
+				if title_end >= 0:
+					# Extract the content between <title> and </title> tags
+					var title_content = body_text.substr(title_start, title_end - title_start)
+					set_item_name(title_content.strip_edges())  # Remove leading and trailing whitespaces
+				else:
+					print("Closing </title> tag not found in the webpage.")
+			else:
+				print("Closing > character after <title not found in the webpage.")
 		else:
-			print("Title not found in the webpage.")
+			print("Opening <title tag not found in the webpage.")
 	else:
 		print("Failed to fetch the webpage. Response code:", response_code)
+

@@ -35,8 +35,7 @@ corner_radius_bottom_left = 8
 [node name="course_card" type="MarginContainer"]
 custom_minimum_size = Vector2(300, 280)
 offset_right = 381.0
-offset_bottom = 318.0
-size_flags_horizontal = 0
+offset_bottom = 356.0
 size_flags_vertical = 0
 theme = SubResource("Theme_6ueds")
 script = ExtResource("1_ru0ku")
@@ -60,6 +59,7 @@ theme_override_constants/separation = 20
 layout_mode = 2
 
 [node name="course_edit" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 4
@@ -67,6 +67,8 @@ theme_override_constants/separation = 4
 [node name="course_name_edit" type="TextEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/course_edit"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+focus_next = NodePath("../course_description_edit")
+focus_previous = NodePath("../deadline_edit")
 theme = ExtResource("5_twqha")
 theme_override_styles/normal = ExtResource("4_f4jsf")
 theme_override_styles/focus = ExtResource("5_ayyk2")
@@ -77,10 +79,21 @@ text_direction = 1
 [node name="course_description_edit" type="TextEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/course_edit"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+focus_next = NodePath("../deadline_edit")
+focus_previous = NodePath("../course_name_edit")
 theme_override_styles/normal = ExtResource("4_f4jsf")
 theme_override_styles/focus = ExtResource("5_ayyk2")
 placeholder_text = "Course Description"
 scroll_fit_content_height = true
+
+[node name="deadline_edit" type="TextEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/course_edit"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+focus_next = NodePath("../course_name_edit")
+focus_previous = NodePath("../course_description_edit")
+theme_override_styles/normal = ExtResource("4_f4jsf")
+theme_override_styles/focus = ExtResource("5_ayyk2")
+placeholder_text = "Deadline"
 
 [node name="course_labels" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -201,6 +214,7 @@ show_percentage = false
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/course_edit/course_name_edit" to="." method="_on_text_edit_gui_input"]
 [connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/course_edit/course_description_edit" to="." method="_on_text_edit_gui_input"]
+[connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/course_edit/deadline_edit" to="." method="_on_text_edit_gui_input"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/edit_button" to="." method="_on_edit_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/delete_button" to="." method="_on_delete_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/done_button" to="." method="_on_done_pressed"]

@@ -113,8 +113,11 @@ func append_items(link):
 func remove_item(key):
 	var items = Global.user_data["courses"][idx]["items"]
 	var index = CourseManager.getItemKeyIndex(key, idx)
-	items.remove_at(index)
 	total_tasks-=1
+	if Global.user_data["courses"][idx]["items"][index]["completed"]:
+		update_done_tasks(-1)
+	items.remove_at(index)
+	update_item_json()
 	Global.save_json_file()
 
 func _process(delta):
@@ -124,7 +127,6 @@ func _process(delta):
 		mouse_entered()
 	else:
 		mouse_exited()
-
 
 func normal_mode():
 	edit_button.hide()

@@ -1,0 +1,39 @@
+{
+  "username" : "<null>",
+  "courses" : [
+  {
+    "completed_items": 0,
+    "course_description": "You can delete this one",
+    "course_name": "Course 1",
+    "deadline": "10 Oct",
+    "items": [
+      {
+        "completed": 0,
+        "key": "1.2",
+        "title": "Task2",
+        "url": "https://www.youtube.com/watch?v=RwrQTIVDxyA"
+      },
+      {
+      "completed": 0,
+      "key": "1.1",
+      "title": "Task1",
+      "url": "https://medium.com/@yogendramanawat/how-not-to-be-an-indie-game-developer-ffd0d21a81fd"
+      },
+      {
+      "completed": 0,
+      "key": "1.2",
+      "title": "Task2",
+      "url": "https://medium.com/@yogendramanawat/switching-from-unity-to-godot-773064fca8f7"
+      },
+      {
+          "completed": 0,
+          "key": "1.2",
+          "title": "Task2",
+          "url": "https://yogendramanawat.itch.io/"
+      }
+    ],
+    "key" : "123",
+    "total_items" : 2
+  }
+  ]
+}

@@ -14,6 +14,9 @@ var course_edit: VBoxContainer
 var panel_separator: Panel
 var progress_bar:ProgressBar
 var total_tasks_label:Label
+var total_task_container
+var deadline_edit:TextEdit
+var below_bar
 var edit:bool = 0
 
 var key = ""
@@ -22,6 +25,8 @@ var course_description_text = ""
 var course_deadline_text = ""
 var total_tasks = 0
 var done_tasks = 0
+var current_size
+var min_size = Vector2(300,200)
 
 func _ready():
 	course_labels = $MarginContainer/VBoxContainer/HBoxContainer/course_labels
@@ -37,7 +42,11 @@ func _ready():
 	done_button = $MarginContainer/VBoxContainer/HBoxContainer/done_button
 	panel_separator = $MarginContainer/VBoxContainer/HBoxContainer/panel_separator
 	progress_bar = $MarginContainer/VBoxContainer/VBoxContainer2/ProgressBar
+	total_task_container = $MarginContainer/VBoxContainer/MarginContainer
 	total_tasks_label = $MarginContainer/VBoxContainer/MarginContainer/MarginContainer/total_tasks
+	deadline_edit=$MarginContainer/VBoxContainer/HBoxContainer/course_edit/deadline_edit
+	
+	below_bar = $MarginContainer/VBoxContainer/VBoxContainer2
 	set_key(key)
 	set_course_name(course_name_text)
 	set_course_description(course_description_text)
@@ -58,20 +67,33 @@ func _process(delta):
 
 
 func normal_mode():
+	custom_minimum_size = min_size
+	total_task_container.show()
 	edit_button.hide()
 	delete_button.hide()
 	done_button.hide()
 	course_edit.hide()
 	course_labels.show()
 	panel_separator.show()
+	below_bar.show()
+	
+	current_size = size
 	
 func edit_mode():
+	total_task_container.hide()
+	panel_separator.hide()
 	edit_button.hide()
 	delete_button.hide()
 	done_button.show()
 	course_edit.show()
 	course_labels.hide()
-	panel_separator.hide()
+	below_bar.hide()
+	
+	course_name_edit.text = course_name_text
+	course_description_edit.text = course_description_text
+	deadline_edit.text = course_deadline_text
+	
+	custom_minimum_size = current_size
 
 func hover_mode():
 	edit_button.show()
@@ -100,6 +122,8 @@ func set_text():
 	if course_description_edit.get_line(0) != "":
 		set_course_description(course_description_edit.get_line(0))
 		course_description_edit.clear()
+	if deadline_edit.get_line(0)!= "":
+		set_deadline(deadline_edit.get_line(0))
 	edit = 0
 	normal_mode()
 
@@ -143,7 +167,25 @@ func _on_text_edit_gui_input(event):
 		if event.is_action_pressed("ui_accept"):
 			set_text()
 
+		if event.is_action_pressed("tab"):
+			print("pressed")
+			var current_focus
+			
+			for edits in course_edit.get_children():
+				if edits.has_focus():
+					current_focus = edits
+			
+			var next_edit = null
+
+			# Find the next TextEdit node based on the currently focused control
+			if current_focus is TextEdit:
+				next_edit = current_focus.find_next_valid_focus()
+				next_edit.grab_focus()
+			else:
+				next_edit = course_name_edit # Set the first TextEdit node in your scene hierarchy
+
 func _on_gui_input(event):
 	if event is InputEventMouseButton:
 		if event.is_action_pressed("left_mouse"):
 			Global.expand_card(CourseManager.get_key_index(key))
+			
