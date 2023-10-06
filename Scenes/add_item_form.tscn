@@ -7,17 +7,15 @@
 [ext_resource type="Texture2D" uid="uid://clqj760l0f03v" path="res://Assets/Icons/Checked.svg" id="5_0o4up"]
 
 [node name="add_button" type="MarginContainer"]
-custom_minimum_size = Vector2(120, 48)
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 27.0
+offset_bottom = 69.0
 grow_horizontal = 2
 size_flags_vertical = 3
 script = ExtResource("1_tqhjw")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 2
-size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("2_ep64g")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -28,17 +26,21 @@ theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+size_flags_vertical = 0
 
 [node name="itemLink" type="TextEdit" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/normal = ExtResource("3_4ig81")
 theme_override_styles/focus = ExtResource("4_ymalg")
+placeholder_text = "Paste link here"
 
 [node name="Add_new_item" type="Button" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
+size_flags_vertical = 4
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_styles/normal = ExtResource("2_ep64g")
 text = "
@@ -46,4 +48,6 @@ text = "
 icon = ExtResource("5_0o4up")
 flat = true
 
+[connection signal="text_changed" from="MarginContainer/HBoxContainer/itemLink" to="." method="_on_item_link_text_changed"]
+[connection signal="text_set" from="MarginContainer/HBoxContainer/itemLink" to="." method="_on_item_link_text_changed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Add_new_item" to="." method="_on_add_new_item_pressed"]

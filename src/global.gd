@@ -5,23 +5,70 @@ extends Node
 @onready var course_card = preload("res://Scenes/course_card.tscn")
 @onready var add_new_course = preload("res://Scenes/add_course.tscn").instantiate()
 @onready var add_new_course_details = preload("res://Scenes/add_new_course_details.tscn").instantiate()
-@onready var user_data_JSON = ("res://Firestore/user_data.json")
+@onready var user_data_JSON = ("user://coursefy_user_data.json")
 @onready var dashboard = control.find_child("Dashboard_")
 @onready var expended_course = control.find_child("course_expended")
 var user_data = {}
 
 func _ready():
+	print(user_data_JSON)
 	course_container = control.find_child("course_container")
 	course_container.add_child(add_new_course)
 	user_data = load_json_file(user_data_JSON)
 	
-	if user_data.has("courses"):
+	if user_data and user_data.has("courses"):
 		# Get the list of courses
 		var courses = user_data["courses"]
 		
 		for course in courses:
 			add_course(course["key"], course["course_name"], course["course_description"], course["deadline"], course["total_items"], course["completed_items"])
 
+func create_json(username):
+	if !FileAccess.file_exists(user_data_JSON):
+		var file = FileAccess.open(user_data_JSON, FileAccess.WRITE)
+		var courses = {
+			"username" : username,
+			"courses" : [
+			{
+				"completed_items": 0,
+				"course_description": "You can delete this one",
+				"course_name": "Course 1",
+				"deadline": "10 Oct",
+				"items": [
+					{
+					"completed": 0,
+					"key": "1.1",
+					"title": "Task1",
+					"url": "https://www.example.com/introduction-course-1"
+					},
+					{
+					"completed": 0,
+					"key": "1.2",
+					"title": "Task2",
+					"url": "https://www.example.com/introduction-course-1"
+					}
+				],
+				"key" : "123",
+				"total_items" : 2
+			}
+			]
+		}
+		file.store_string(JSON.stringify(courses))
+		file.close()
+	else:
+		user_data["userrname"] = username
+
+func reload_courses():
+	var add_course_but = course_container.get_child(-1)
+	var childrens = course_container.get_children(false)
+	for child in childrens:
+		if child!=add_course_but:
+			child.queue_free()
+	if user_data and user_data.has("courses"):
+		var courses = user_data["courses"]
+		for course in courses:
+			add_course(course["key"], course["course_name"], course["course_description"], course["deadline"], course["total_items"], course["completed_items"])
+	
 func add_course(course_key:String, course_name:String, course_description:String, target:String, total_items:int=0, complete_items:int=0):
 	var new_course = course_card.instantiate()
 	new_course.key = course_key
@@ -65,22 +112,21 @@ func remove_course(idx:int):
 		
 		for course in courses:
 			add_course(course["key"], course["course_name"], course["course_description"], course["deadline"], course["total_items"], course["completed_items"])
-	else:
-		add_child_new_course_button()
+	add_child_new_course_button()
 
 func add_child_new_course_button():
 	# Remove the node from its current parent
 	if add_new_course.get_parent():
 		add_new_course.get_parent().remove_child(add_new_course)
-	course_container.remove_child(add_new_course_details)
 	course_container.add_child(add_new_course)
+	course_container.remove_child(add_new_course_details)
 
 func add_child_new_course_form():
 	# Remove the node from its current parent
 	if add_new_course_details.get_parent():
 		add_new_course_details.get_parent().remove_child(add_new_course_details)
-	course_container.remove_child(add_new_course)
 	course_container.add_child(add_new_course_details)
+	course_container.remove_child(add_new_course)
 
 func expand_card(x:int):
 	dashboard.hide()
@@ -88,7 +134,6 @@ func expand_card(x:int):
 	
 func collapse_expended_card():
 	control.hide_expended()
-#	expended_course.clear()
 	dashboard.show()
 
 func load_json_file(path : String):

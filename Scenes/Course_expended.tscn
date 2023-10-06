@@ -99,7 +99,8 @@ scroll_fit_content_height = true
 
 [node name="course_labels" type="VBoxContainer" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 3
+size_flags_vertical = 4
 theme_override_constants/separation = 0
 
 [node name="course_name" type="Label" parent="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer/course_labels"]
@@ -212,6 +213,8 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_rm2vi")
 value = 23.0
 show_percentage = false
 
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="gui_input" from="VBoxContainer/course_card" to="VBoxContainer/course_card" method="_on_gui_input" flags=18]
 [connection signal="gui_input" from="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer/course_edit/course_name_edit" to="VBoxContainer/course_card" method="_on_text_edit_gui_input" flags=18]
@@ -219,3 +222,4 @@ show_percentage = false
 [connection signal="pressed" from="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer/edit_button" to="VBoxContainer/course_card" method="_on_edit_pressed" flags=18]
 [connection signal="pressed" from="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer/delete_button" to="VBoxContainer/course_card" method="_on_delete_pressed" flags=18]
 [connection signal="pressed" from="VBoxContainer/course_card/MarginContainer/VBoxContainer/HBoxContainer/done_button" to="VBoxContainer/course_card" method="_on_done_pressed" flags=18]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_request_completed"]

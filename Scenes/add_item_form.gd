@@ -9,3 +9,4 @@ func _ready():
 func _on_add_new_item_pressed():
 	item_link_text = item_link_edit.get_line(0)
 	get_parent().get_parent().append_items(item_link_text)
+	item_link_edit.clear()

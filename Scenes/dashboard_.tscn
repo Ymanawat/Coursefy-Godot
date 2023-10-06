@@ -11,20 +11,20 @@ anchor_right = 1.0
 offset_bottom = 570.0
 grow_horizontal = 2
 
-[node name="Label" type="Label" parent="."]
+[node name="hello" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("1_iclja")
 text = "Hello"
 
-[node name="Label2" type="Label" parent="."]
+[node name="username" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme = ExtResource("2_pberf")
 text = "YOGENDRA"
 
-[node name="Label3" type="Label" parent="."]
+[node name="motivation" type="Label" parent="."]
 layout_mode = 2
 size_flags_vertical = 0
 theme = ExtResource("1_iclja")

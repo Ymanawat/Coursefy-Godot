@@ -34,11 +34,9 @@ corner_radius_bottom_left = 8
 
 [node name="course_card" type="MarginContainer"]
 custom_minimum_size = Vector2(300, 280)
-anchors_preset = 10
-anchor_right = 1.0
+offset_right = 381.0
 offset_bottom = 318.0
-grow_horizontal = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 0
 size_flags_vertical = 0
 theme = SubResource("Theme_6ueds")
 script = ExtResource("1_ru0ku")
@@ -86,7 +84,7 @@ scroll_fit_content_height = true
 
 [node name="course_labels" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 2
 theme_override_constants/separation = 0
 
 [node name="course_name" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/course_labels"]
@@ -173,6 +171,7 @@ text = "Progress:
 
 [node name="progress_percentage" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 2
 theme = ExtResource("3_ehqsm")
 text = "23%"
 

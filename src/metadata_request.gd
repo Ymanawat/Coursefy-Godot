@@ -8,8 +8,11 @@ func _ready():
 	http_request.request_completed.connect(_on_request_completed)
 	http_request.request(url)
 
+func get_url_title(url):
+	http_request.request(url)
+	
 func _on_request_completed(result, response_code, headers, body):
-	if response_code == 200:  # HTTP OK status code
+	if response_code == 200:
 		var body_text = body.get_string_from_utf8()
 		var title_start = body_text.find("<title>") + 7
 		var title_end = body_text.find("</title>", title_start)

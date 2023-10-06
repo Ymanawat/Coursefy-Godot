@@ -115,8 +115,8 @@ func set_progress():
 		progress_percantage = (float(done_tasks)/float(total_tasks))*100
 	else:
 		progress_percantage = 0
-	progress.text = str(progress_percantage)
-	progress_bar.value = progress_percantage
+	progress.text = str(int(progress_percantage))
+	progress_bar.value = (progress_percantage)
 	
 func set_deadline(x:String):
 	time_to_complete.text = x
@@ -126,7 +126,7 @@ func set_total_tasks(x:int):
 	total_tasks_label.text = str(x) + " tasks"
 	set_progress()
 
-func set_done_tasks(x:bool):
+func set_done_tasks(x):
 	done_tasks = x
 	set_progress()
 

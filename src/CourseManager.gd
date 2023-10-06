@@ -4,11 +4,13 @@ var occupiedKeys := {}
 var courses
 
 func _ready():
-	var courses = Global.user_data["courses"]
-	for index in range(courses.size()):
-		var course = courses[index]
-		var key = course["key"]
-		occupiedKeys[key] = index
+	
+	if Global.user_data:
+		var courses = Global.user_data["courses"]
+		for index in range(courses.size()):
+			var course = courses[index]
+			var key = course["key"]
+			occupiedKeys[key] = index
 
 func generateUniqueKey():
 	var newKey = str(randi() % 1000) # Generates a random number between 0 and 999
@@ -23,13 +25,12 @@ func isKeyOccupied(key):
 	return occupiedKeys.has(key)
 
 func getFreeIndex():
-	var courses = Global.user_data["courses"]
-	for index in range(courses.size()):
-		if !occupiedKeys.has(str(index)): # Check if the index is not occupied
-			return index
-
-	# If no free index is found, return -1 (or handle it based on your requirements)
-	return -1
+	if Global.user_data:
+		var courses = Global.user_data["courses"]
+		for index in range(courses.size()):
+			if !occupiedKeys.has(str(index)): # Check if the index is not occupied
+				return index
+		return -1
 
 func getNewKey():
 	var newKey = generateUniqueKey()
@@ -67,4 +68,5 @@ func getItemKeyIndex(key, idx):
 	for index in range(items.size()):
 		if items[index]["key"] == str(key):
 			return index
+
 

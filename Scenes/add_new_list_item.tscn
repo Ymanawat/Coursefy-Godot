@@ -1,7 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://ucshrbmv1in"]
+[gd_scene load_steps=4 format=3 uid="uid://ucshrbmv1in"]
 
 [ext_resource type="Script" path="res://Scenes/add_new_list_item.gd" id="1_l7bx0"]
 [ext_resource type="StyleBox" uid="uid://vpm6jgp1max0" path="res://Scenes/white_panel.tres" id="1_xs5k3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hpayv"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [node name="add_button" type="HBoxContainer"]
 custom_minimum_size = Vector2(120, 48)
@@ -17,4 +24,5 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_styles/normal = ExtResource("1_xs5k3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hpayv")
 text = "+ New Item"

@@ -1,5 +1,5 @@
 extends MarginContainer
-
+var http_request:HTTPRequest
 @onready var white_panel_theme = preload("res://Scenes/white_panel.tres")
 @onready var yellow_panel_theme = preload("res://Scenes/Course_Card_panel.tres")
 var item_edit_box = find_child("item_edit")
@@ -12,7 +12,7 @@ var item_name_edit:TextEdit
 var item_link_edit:TextEdit
 var item_name_label:Label
 var panel_separator:Panel
-
+var link_icon:TextureRect
 var edit = 0
 
 var key = ""
@@ -22,6 +22,7 @@ var item_link = ""
 var completed = 0
 
 func _ready():
+	http_request = $HTTPRequest
 	item_edit_box = $MarginContainer/HBoxContainer/item_edit
 	item_label_box = $MarginContainer/HBoxContainer/item_label
 	item_name_edit = $MarginContainer/HBoxContainer/item_edit/item_name_edit
@@ -32,7 +33,7 @@ func _ready():
 	done_button = $MarginContainer/HBoxContainer/done_button
 	check_button = $MarginContainer/HBoxContainer/CheckButton
 	panel_separator = $MarginContainer/HBoxContainer/panel_separator
-	
+	link_icon = $MarginContainer/HBoxContainer/link_icon
 	normal_mode()
 	set_item_name(item_name)
 	set_item_link(item_link)
@@ -54,8 +55,6 @@ func _on_text_edit_gui_input(event):
 func mouse_entered():
 	if (!edit):
 		hover_mode()
-	if Input.is_action_just_pressed("left_mouse"):
-			open_link_in_browser()
 
 func mouse_exited():
 	if(!edit):
@@ -69,15 +68,19 @@ func normal_mode():
 	panel_separator.show()
 	done_button.hide()
 	check_button.show()
+	link_icon.show()
 	
 func edit_mode():
 	edit_button.hide()
 	delete_button.hide()
 	done_button.show()
 	item_edit_box.show()
+	item_name_edit.text = item_name
+	item_link_edit.text = item_link
 	item_label_box.hide()
 	panel_separator.hide()
 	check_button.hide()
+	link_icon.hide()
 
 func hover_mode():
 	edit_button.show()
@@ -100,6 +103,7 @@ func set_item_name(x: String):
 	item_name_label.text = x
 	
 func set_item_link(x: String):
+	request_title(x)
 	item_link = x
 
 func set_text():
@@ -115,11 +119,11 @@ func set_text():
 
 func set_toggle(completed):
 	if completed:
-		check_button.button_pressed = true
+		check_button.set_pressed_no_signal(true)
 		$white_panel.hide()
 		$yellow_panel.show()
 	else:
-		check_button.button_pressed = false
+		check_button.set_pressed_no_signal(false)
 		$white_panel.show()
 		$yellow_panel.hide()
 
@@ -153,3 +157,25 @@ func update_item_json():
 func open_link_in_browser():
 	if item_link!="":
 		OS.shell_open(item_link)
+		
+func _on_gui_input(event):
+	if event is InputEventMouseButton:
+		if event.is_action_pressed("left_mouse"):
+				open_link_in_browser()
+
+func request_title(url):
+	print("requested")
+	http_request.request(url)
+
+func _on_request_completed(result, response_code, headers, body):
+	print("called request completed")
+	if response_code == 200:
+		var body_text = body.get_string_from_utf8()
+		var title_start = body_text.find("<title>") + 7
+		var title_end = body_text.find("</title>", title_start)
+		if title_start >= 0 and title_end >= 0:
+			set_item_name(body_text.substr(title_start, title_end - title_start))
+		else:
+			print("Title not found in the webpage.")
+	else:
+		print("Failed to fetch the webpage. Response code:", response_code)

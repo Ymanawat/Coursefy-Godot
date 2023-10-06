@@ -59,6 +59,7 @@ func _ready():
 	container.add_child(add_items_buttom)
 
 func _on_button_pressed():
+	Global.reload_courses()
 	Global.collapse_expended_card()
 	
 func setup_course(idx:int):
@@ -94,15 +95,13 @@ func append_items(link):
 	var new_key = CourseManager.getNewItemKey()
 	var new_item = list_item.instantiate()
 	new_item.key = new_key
-	MetadataRequest.url=link
-	new_item.item_name = "name"
 	new_item.item_link = link
 	
 	container.add_child(new_item)
 	
 	var new_item_data = {
 		"key" : new_key,
-		"title" : name,
+		"title" : "",
 		"url" : link,
 		"completed" : 0
 	}
@@ -115,6 +114,7 @@ func remove_item(key):
 	var items = Global.user_data["courses"][idx]["items"]
 	var index = CourseManager.getItemKeyIndex(key, idx)
 	items.remove_at(index)
+	total_tasks-=1
 	Global.save_json_file()
 
 func _process(delta):
@@ -188,8 +188,8 @@ func set_progress():
 		progress_percantage = (float(done_tasks)/float(total_tasks))*100.0
 	else:
 		progress_percantage = 0
-	progress.text = str(progress_percantage)
-	progress_bar.value = progress_percantage
+	progress.text = str(int(progress_percantage))
+	progress_bar.value = (progress_percantage)
 	
 func set_deadline(x:String):
 	course_deadline_text = x
@@ -218,6 +218,8 @@ func mouse_exited():
 
 func _on_text_edit_gui_input(event):
 	if event is InputEventKey:
+		if event.is_action_pressed("tab"):
+			pass
 		if event.is_action_pressed("ui_accept"):
 			set_text()
 
@@ -235,3 +237,5 @@ func update_item_json():
 	}
 	Global.user_data["courses"][index] = course
 	Global.save_json_file()
+
+
