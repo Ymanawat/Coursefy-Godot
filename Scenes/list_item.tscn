@@ -130,6 +130,9 @@ flat = true
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="gui_input" from="MarginContainer/HBoxContainer" to="." method="_on_gui_input"]
+[connection signal="gui_input" from="MarginContainer/HBoxContainer/item_edit/item_name_edit" to="." method="_on_item_name_edit_gui_input"]
+[connection signal="gui_input" from="MarginContainer/HBoxContainer/item_edit/item_link_edit" to="." method="_on_item_name_edit_gui_input"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/edit_button" to="." method="_on_edit_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/delete_button" to="." method="_on_delete_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/done_button" to="." method="_on_done_pressed"]

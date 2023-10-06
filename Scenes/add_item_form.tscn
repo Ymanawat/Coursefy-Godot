@@ -48,6 +48,7 @@ text = "
 icon = ExtResource("5_0o4up")
 flat = true
 
+[connection signal="gui_input" from="MarginContainer/HBoxContainer/itemLink" to="." method="_on_item_link_gui_input"]
 [connection signal="text_changed" from="MarginContainer/HBoxContainer/itemLink" to="." method="_on_item_link_text_changed"]
 [connection signal="text_set" from="MarginContainer/HBoxContainer/itemLink" to="." method="_on_item_link_text_changed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Add_new_item" to="." method="_on_add_new_item_pressed"]

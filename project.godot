@@ -24,6 +24,7 @@ MetadataRequest="*res://src/metadata_request.gd"
 [display]
 
 window/size/mode=2
+window/handheld/orientation=1
 
 [input]
 

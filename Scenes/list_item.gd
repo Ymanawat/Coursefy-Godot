@@ -21,6 +21,9 @@ var item_name = ""
 var item_link = ""
 var completed = 0
 
+var prev_link = ""
+var fetched_title=""
+
 func _ready():
 	http_request = $HTTPRequest
 	item_edit_box = $MarginContainer/HBoxContainer/item_edit
@@ -36,7 +39,7 @@ func _ready():
 	link_icon = $MarginContainer/HBoxContainer/link_icon
 	normal_mode()
 	set_item_name(item_name)
-	set_item_link(item_link)
+	set_item_link_text(item_link)
 	set_toggle(completed)
 
 func _process(delta):
@@ -46,11 +49,6 @@ func _process(delta):
 		mouse_entered()
 	else:
 		mouse_exited()
-
-func _on_text_edit_gui_input(event):
-	if event is InputEventKey:
-		if event.is_action_pressed("ui_accept"):
-			set_text()
 
 func mouse_entered():
 	if (!edit):
@@ -101,10 +99,19 @@ func _on_done_pressed():
 func set_item_name(x: String):
 	item_name = x
 	item_name_label.text = x
-	
-func set_item_link(x: String):
-	request_title(x)
+	if item_name=="":
+		set_item_link(item_link)
+	else:
+		update_item_json()
+
+func set_item_link_text(x: String):
 	item_link = x
+
+func set_item_link(x: String):
+	if item_name=="" or prev_link != x:
+		await request_title(x)
+		item_link = x
+		prev_link = x
 
 func set_text():
 	if item_name_edit.get_line(0) != "":
@@ -159,7 +166,11 @@ func open_link_in_browser():
 		OS.shell_open(item_link)
 		
 func _on_gui_input(event):
-	if event is InputEventMouseButton:
+	if event is InputEventAction:
+		if event.is_action_pressed("ui_accept"):
+			set_text()
+	
+	if event is InputEventMouseButton and !edit:
 		if event.is_action_pressed("left_mouse"):
 				open_link_in_browser()
 
@@ -189,7 +200,7 @@ func _on_request_completed(result, response_code, headers, body):
 				if title_end >= 0:
 					# Extract the content between <title> and </title> tags
 					var title_content = body_text.substr(title_start, title_end - title_start)
-					set_item_name(title_content.strip_edges())  # Remove leading and trailing whitespaces
+					set_item_name(title_content.strip_edges())
 				else:
 					print("Closing </title> tag not found in the webpage.")
 			else:
@@ -199,3 +210,8 @@ func _on_request_completed(result, response_code, headers, body):
 	else:
 		print("Failed to fetch the webpage. Response code:", response_code)
 
+
+func _on_item_name_edit_gui_input(event):
+	if event is InputEvent:
+		if event.is_action_pressed("ui_accept"):
+			_on_done_pressed()

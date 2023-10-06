@@ -6,7 +6,7 @@ var expended_course = preload("res://Scenes/Course_expended.tscn")
 var expended_view
 var first_access_screen
 var user_name_edit
-var username
+var username = ""
 
 var messages := [
 	"Learn. Believe. Create.",
@@ -30,9 +30,9 @@ func _ready():
 	if Global.user_data:
 		if Global.user_data.has("username"):
 			first_access_screen.hide()
+			username = Global.user_data["username"]
 		else:
 			first_access_screen.show()
-		username = Global.user_data["username"]
 		user_name_label.text = username
 		
 	var viewport_height = get_viewport_rect().size.y

@@ -1,10 +1,9 @@
 {
-  "username" : "<null>",
   "courses" : [
   {
     "completed_items": 0,
-    "course_description": "You can delete this one",
-    "course_name": "Course 1",
+    "course_description": "Click here to open",
+    "course_name": "My course",
     "deadline": "10 Oct",
     "items": [
       {
@@ -33,7 +32,7 @@
       }
     ],
     "key" : "123",
-    "total_items" : 2
+    "total_items" : 4
   }
   ]
 }

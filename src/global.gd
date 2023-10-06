@@ -9,11 +9,17 @@ extends Node
 @onready var dashboard = control.find_child("Dashboard_")
 @onready var expended_course = control.find_child("course_expended")
 
-var my_course = "res://Firestore/my_course_json.json"
+@onready var my_course = "res://Firestore/my_course_json.json"
 var user_data = {}
 
 func _ready():
 	print(user_data_JSON)
+	if !FileAccess.file_exists(user_data_JSON):
+		var file = FileAccess.open(user_data_JSON, FileAccess.WRITE)
+		var courses = load_json_file(my_course)
+		file.store_string(JSON.stringify(courses))
+		file.close()
+	
 	course_container = control.find_child("course_container")
 	course_container.add_child(add_new_course)
 	user_data = load_json_file(user_data_JSON)
@@ -26,14 +32,8 @@ func _ready():
 			add_course(course["key"], course["course_name"], course["course_description"], course["deadline"], course["total_items"], course["completed_items"])
 
 func create_json(username):
-	if !FileAccess.file_exists(user_data_JSON):
-		var file = FileAccess.open(user_data_JSON, FileAccess.WRITE)
-		var courses = load_json_file(my_course)
-		file.store_string(JSON.stringify(courses))
-		file.close()
-	else:
-		user_data["userrname"] = username
-		save_json_file()
+	user_data["username"] = username
+	save_json_file()
 
 func reload_courses():
 	var add_course_but = course_container.get_child(-1)
